@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.ts",
+  "imports": {
+    "#config/*": "./src/config/*",
+    "#database/*": "./src/database/*",
+    "#middlewares/*": "./src/middlewares/*",
+    "#modules/*": "./src/modules/*",
+    "#shared/*": "./src/shared/*"
+  },
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",

@@ -1,5 +1,5 @@
+import CustomError from "#shared/utils/CustomError.js";
 import type { ErrorRequestHandler } from "express";
-import CustomError from "../shared/utils/CustomError.js";
 
 //Express provides exclusive type for ErrorMiddleware
 

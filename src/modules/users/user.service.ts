@@ -1,5 +1,5 @@
-import CustomError from "../../shared/utils/CustomError.js";
-import generateToken from "../../shared/utils/generateToken.js";
+import CustomError from "#shared/utils/CustomError.js";
+import generateToken from "#shared/utils/generateToken.js";
 import User from "./user.model.js";
 import type {
   CreateUserData,

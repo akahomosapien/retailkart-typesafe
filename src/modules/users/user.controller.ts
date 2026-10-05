@@ -1,6 +1,6 @@
-import { env } from "../../config/env.js";
-import asyncHandler from "../../shared/utils/asyncHandler.js";
-import successResponse from "../../shared/utils/successResponse.js";
+import { env } from "#config/env.js";
+import asyncHandler from "#shared/utils/asyncHandler.js";
+import successResponse from "#shared/utils/successResponse.js";
 import { createUser, loginUser } from "./user.service.js";
 
 export const createUserController = asyncHandler(async (req, res) => {
