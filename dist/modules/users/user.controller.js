@@ -24,4 +24,12 @@ export const getCurrentUserController = asyncHandler(async (req, res) => {
     const user = await getCurrentUser(req.user.id);
     successResponse(res, "User fetched successfully", user);
 });
+export const logoutUserController = asyncHandler(async (_req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: "strict",
+    });
+    successResponse(res, "Logout Successful");
+});
 //# sourceMappingURL=user.controller.js.map
