@@ -7,6 +7,12 @@ export const createUserController = asyncHandler(async (req, res) => {
 });
 export const loginUserController = asyncHandler(async (req, res) => {
     const result = await loginUser(req.body);
-    successResponse(res, "Login successful", result);
+    res.cookie("token", result.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    successResponse(res, "Login successful", result.user);
 });
 //# sourceMappingURL=user.controller.js.map

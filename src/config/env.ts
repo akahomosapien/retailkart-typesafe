@@ -3,6 +3,7 @@ import "dotenv/config";
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
+const NODE_ENV = process.env.NODE_ENV;
 
 if (!PORT) {
   throw new Error("PORT is not defined in environment variables");
@@ -13,8 +14,12 @@ if (!MONGO_URI) {
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in environment variables");
 }
+if (!NODE_ENV) {
+  throw new Error("NODE_ENV is not defined in environment variables");
+}
 export const env = {
   PORT: Number(PORT),
   MONGO_URI,
   JWT_SECRET,
+  NODE_ENV,
 };
