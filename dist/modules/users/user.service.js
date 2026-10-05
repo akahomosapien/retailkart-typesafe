@@ -1,4 +1,5 @@
 import CustomError from "../../shared/utils/CustomError.js";
+import generateToken from "../../shared/utils/generateToken.js";
 import User from "./user.model.js";
 import bcrypt from "bcrypt";
 export const createUser = async (userData) => {
@@ -14,5 +15,21 @@ export const createUser = async (userData) => {
     //Failed as TS not allowing to delete a property as the type is already fixed
     //   delete userObject.password;
     return userResponse;
+};
+export const loginUser = async (userData) => {
+    const user = await User.findOne({ email: userData.email }).select("+password");
+    if (!user) {
+        throw new CustomError("Invalid email or password", 401);
+    }
+    const isPasswordCorrect = await bcrypt.compare(userData.password, user.password);
+    if (!isPasswordCorrect) {
+        throw new CustomError("Invalid email or password", 401);
+    }
+    const userObject = user.toObject();
+    const { password: _password, ...userResponse } = userObject;
+    const token = generateToken({
+        id: user._id.toString(),
+    });
+    return { user: userResponse, token };
 };
 //# sourceMappingURL=user.service.js.map

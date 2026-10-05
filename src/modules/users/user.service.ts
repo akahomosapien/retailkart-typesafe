@@ -1,6 +1,12 @@
 import CustomError from "../../shared/utils/CustomError.js";
+import generateToken from "../../shared/utils/generateToken.js";
 import User from "./user.model.js";
-import type { CreateUserData, UserResponse } from "./user.types.js";
+import type {
+  CreateUserData,
+  LoginResponse,
+  LoginUserData,
+  UserResponse,
+} from "./user.types.js";
 import bcrypt from "bcrypt";
 
 export const createUser = async (
@@ -25,4 +31,32 @@ export const createUser = async (
   //   delete userObject.password;
 
   return userResponse;
+};
+
+export const loginUser = async (
+  userData: LoginUserData,
+): Promise<LoginResponse> => {
+  const user = await User.findOne({ email: userData.email }).select(
+    "+password",
+  );
+  if (!user) {
+    throw new CustomError("Invalid email or password", 401);
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(
+    userData.password,
+    user.password,
+  );
+  if (!isPasswordCorrect) {
+    throw new CustomError("Invalid email or password", 401);
+  }
+
+  const userObject = user.toObject();
+  const { password: _password, ...userResponse } = userObject;
+
+  const token = generateToken({
+    id: user._id.toString(),
+  });
+
+  return { user: userResponse, token };
 };

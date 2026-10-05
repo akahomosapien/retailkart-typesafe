@@ -1,3 +1,4 @@
+//User
 export interface IUser {
   firstName: string;
   lastName: string;
@@ -25,9 +26,19 @@ export interface IUser {
   updatedAt: Date;
 }
 
+//Create User
 export type CreateUserData = Pick<
   IUser,
   "firstName" | "lastName" | "email" | "password"
 >;
-
 export type UserResponse = Omit<IUser, "password">;
+
+//Login User
+export interface LoginUserData {
+  email: string;
+  password: string;
+}
+export interface LoginResponse {
+  user: UserResponse;
+  token: string;
+}
