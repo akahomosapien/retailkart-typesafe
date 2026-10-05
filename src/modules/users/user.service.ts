@@ -60,3 +60,15 @@ export const loginUser = async (
 
   return { user: userResponse, token };
 };
+
+export const getCurrentUser = async (userId: string): Promise<UserResponse> => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new CustomError("User not found", 404);
+  }
+
+  //needed only when we need to manipulate the user
+  // const userObject = user.toObject(); //converts to plan JS object from Mongoose Document
+
+  return user;
+};

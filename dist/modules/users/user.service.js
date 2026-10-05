@@ -37,8 +37,8 @@ export const getCurrentUser = async (userId) => {
     if (!user) {
         throw new CustomError("User not found", 404);
     }
-    const userObject = user.toObject();
-    const { password: _password, ...userResponse } = userObject;
-    return userResponse;
+    //needed only when we need to manipulate the user
+    // const userObject = user.toObject(); //converts to plan JS object from Mongoose Document
+    return user;
 };
 //# sourceMappingURL=user.service.js.map
