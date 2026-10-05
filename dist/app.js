@@ -1,6 +1,6 @@
 import express from "express";
-import errorMiddleware from "./middlewares/errorMiddleware.js";
-import userRouter from "./modules/users/user.route.js";
+import errorMiddleware from "#middlewares/errorMiddleware.js";
+import userRouter from "#modules/users/user.route.js";
 import cookieParser from "cookie-parser";
 //Test imports
 // import CustomError from "./shared/utils/CustomError.js";

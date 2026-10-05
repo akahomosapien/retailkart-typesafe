@@ -1,5 +1,5 @@
-import CustomError from "../../shared/utils/CustomError.js";
-import generateToken from "../../shared/utils/generateToken.js";
+import CustomError from "#shared/utils/CustomError.js";
+import generateToken from "#shared/utils/generateToken.js";
 import User from "./user.model.js";
 import bcrypt from "bcrypt";
 export const createUser = async (userData) => {
@@ -31,5 +31,14 @@ export const loginUser = async (userData) => {
         id: user._id.toString(),
     });
     return { user: userResponse, token };
+};
+export const getCurrentUser = async (userId) => {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new CustomError("User not found", 404);
+    }
+    const userObject = user.toObject();
+    const { password: _password, ...userResponse } = userObject;
+    return userResponse;
 };
 //# sourceMappingURL=user.service.js.map

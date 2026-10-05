@@ -1,4 +1,4 @@
-import CustomError from "../shared/utils/CustomError.js";
+import CustomError from "#shared/utils/CustomError.js";
 //Express provides exclusive type for ErrorMiddleware
 const errorMiddleware = (error, _req, res, _next) => {
     if (error instanceof CustomError) {
