@@ -2,16 +2,18 @@ import { env } from "#config/env.js";
 import asyncHandler from "#shared/utils/asyncHandler.js";
 import CustomError from "#shared/utils/CustomError.js";
 import successResponse from "#shared/utils/successResponse.js";
+import type { LoginData, SignupData } from "./user.schema.js";
 import { createUser, getCurrentUser, loginUser } from "./user.service.js";
 
 export const createUserController = asyncHandler(async (req, res) => {
-  const user = await createUser(req.body);
+  /*TS assertion is used which will not gurantee in itself but eventually req flows through the validate middleware which checks for the type*/
+  const user = await createUser(req.body as SignupData);
 
   successResponse(res, "User created successfully", user, 201);
 });
 
 export const loginUserController = asyncHandler(async (req, res) => {
-  const result = await loginUser(req.body);
+  const result = await loginUser(req.body as LoginData);
 
   res.cookie("token", result.token, {
     httpOnly: true,

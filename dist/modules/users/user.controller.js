@@ -4,6 +4,7 @@ import CustomError from "#shared/utils/CustomError.js";
 import successResponse from "#shared/utils/successResponse.js";
 import { createUser, getCurrentUser, loginUser } from "./user.service.js";
 export const createUserController = asyncHandler(async (req, res) => {
+    /*TS assertion is used which will not gurantee in itself but eventually req flows through the validate middleware which checks for the type*/
     const user = await createUser(req.body);
     successResponse(res, "User created successfully", user, 201);
 });
