@@ -6,10 +6,12 @@ import {
   logoutUserController,
 } from "./user.controller.js";
 import authMiddleware from "#middlewares/authMiddleware.js";
+import validateMiddleware from "#middlewares/validateMiddleware.js";
+import { signupSchema } from "./user.schema.js";
 
 const userRouter = Router();
 
-userRouter.post("/", createUserController);
+userRouter.post("/", validateMiddleware(signupSchema), createUserController);
 userRouter.post("/login", loginUserController);
 userRouter.get("/me", authMiddleware, getCurrentUserController);
 userRouter.post("/logout", logoutUserController);
