@@ -1,16 +1,12 @@
 import CustomError from "#shared/utils/CustomError.js";
 import generateToken from "#shared/utils/generateToken.js";
 import User from "./user.model.js";
-import type {
-  CreateUserData,
-  LoginResponse,
-  LoginUserData,
-  UserResponse,
-} from "./user.types.js";
+import type { LoginData, SignupData } from "./user.schema.js";
+import type { LoginResponse, UserResponse } from "./user.types.js";
 import bcrypt from "bcrypt";
 
 export const createUser = async (
-  userData: CreateUserData,
+  userData: SignupData,
 ): Promise<UserResponse> => {
   const existingUser = await User.findOne({ email: userData.email });
 
@@ -34,7 +30,7 @@ export const createUser = async (
 };
 
 export const loginUser = async (
-  userData: LoginUserData,
+  userData: LoginData,
 ): Promise<LoginResponse> => {
   const user = await User.findOne({ email: userData.email }).select(
     "+password",
