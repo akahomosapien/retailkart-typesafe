@@ -2,8 +2,17 @@ import { env } from "#config/env.js";
 import asyncHandler from "#shared/utils/asyncHandler.js";
 import CustomError from "#shared/utils/CustomError.js";
 import successResponse from "#shared/utils/successResponse.js";
-import type { LoginData, SignupData } from "./user.schema.js";
-import { createUser, getCurrentUser, loginUser } from "./user.service.js";
+import type {
+  LoginData,
+  SignupData,
+  UpdateProfileData,
+} from "./user.schema.js";
+import {
+  createUser,
+  getCurrentUser,
+  loginUser,
+  updateProfile,
+} from "./user.service.js";
 
 export const createUserController = asyncHandler(async (req, res) => {
   /*TS assertion is used which will not gurantee in itself but eventually req flows through the validate middleware which checks for the type*/
@@ -43,4 +52,14 @@ export const logoutUserController = asyncHandler(async (_req, res) => {
   });
 
   successResponse(res, "Logout Successful");
+});
+
+export const updateProfileController = asyncHandler(async (req, res) => {
+  if (!req.user) {
+    throw new CustomError("Authentication Required", 401);
+  }
+
+  const user = await updateProfile(req.user.id, req.body as UpdateProfileData);
+
+  successResponse(res, "Profile updated successfully", user);
 });

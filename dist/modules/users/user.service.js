@@ -41,4 +41,24 @@ export const getCurrentUser = async (userId) => {
     // const userObject = user.toObject(); //converts to plan JS object from Mongoose Document
     return user;
 };
+export const updateProfile = async (userId, userData) => {
+    /*
+    findByIdAndUpdate: updates only the required fields and does not replace the entire document.
+    new: true => Give me the updated document instead of the old document
+    runValidators: true =>Run the Mongoose schema's validators during this update.
+  
+    Zod-> HTTP input validation
+    Mongoose -> database/model validation
+  
+    they are two different safety boundaries
+    */
+    const user = await User.findByIdAndUpdate(userId, userData, {
+        new: true,
+        runValidators: true,
+    });
+    if (!user) {
+        throw new CustomError("User not found", 404);
+    }
+    return user;
+};
 //# sourceMappingURL=user.service.js.map
