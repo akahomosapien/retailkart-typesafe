@@ -8,6 +8,7 @@ import type {
 } from "./user.schema.js";
 import type { LoginResponse, UserResponse } from "./user.types.js";
 import bcrypt from "bcrypt";
+import { toUserResponse } from "./user.utils.js";
 
 export const createUser = async (
   userData: SignupData,
@@ -22,6 +23,8 @@ export const createUser = async (
 
   const user = await User.create({ ...userData, password: hashedPassword });
 
+  /*
+  Created a utility to handle the password removal
   const userObject = user.toObject();
 
   //destructure the userObject and collect the properties inside the userResponse -password
@@ -31,6 +34,11 @@ export const createUser = async (
   //   delete userObject.password;
 
   return userResponse;
+
+  */
+
+  /*Why toObject()? because mongoose document has mongoose functionality attached to it such as: user.save(), user.toObject(), user.toJSON(), it is not simple JS object, toObject() gives us plain JS object containing only the userData */
+  return toUserResponse(user.toObject());
 };
 
 export const loginUser = async (
@@ -51,14 +59,16 @@ export const loginUser = async (
     throw new CustomError("Invalid email or password", 401);
   }
 
-  const userObject = user.toObject();
-  const { password: _password, ...userResponse } = userObject;
+  /*Utility handles now: toUserResponse
+    const userObject = user.toObject();
+    const { password: _password, ...userResponse } = userObject; 
+  */
 
   const token = generateToken({
     id: user._id.toString(),
   });
 
-  return { user: userResponse, token };
+  return { user: toUserResponse(user.toObject()), token };
 };
 
 export const getCurrentUser = async (userId: string): Promise<UserResponse> => {
@@ -96,5 +106,5 @@ export const updateProfile = async (
     throw new CustomError("User not found", 404);
   }
 
-  return user;
+  return toUserResponse(user.toObject());
 };
