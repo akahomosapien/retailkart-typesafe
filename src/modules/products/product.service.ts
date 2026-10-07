@@ -25,7 +25,11 @@ export const getProducts = async (): Promise<IProduct[]> => {
 };
 
 export const getProductById = async (productId: string): Promise<IProduct> => {
-   const product = await Product.findById(productId);
+  if (!isValidObjectId(productId)) {
+    throw new CustomError("Invalid product ID", 400);
+  }
+
+  const product = await Product.findById(productId);
 
   if (!product) {
     throw new CustomError("Product not found", 404);
