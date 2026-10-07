@@ -1,0 +1,12 @@
+import { z } from "zod";
+
+export const createProductSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1),
+  price: z.number().min(0),
+  category: z.string().min(1),
+  stock: z.number().int().min(0),
+  images: z.array(z.string()).optional(),
+});
+
+export type CreateProductData = z.infer<typeof createProductSchema>;

@@ -2,6 +2,7 @@ import express from "express";
 import errorMiddleware from "#middlewares/errorMiddleware.js";
 import userRouter from "#modules/users/user.route.js";
 import cookieParser from "cookie-parser";
+import productRouter from "#modules/products/product.route.js";
 
 //Test imports
 // import CustomError from "./shared/utils/CustomError.js";
@@ -21,6 +22,7 @@ app.get("/", (_req, res) => {
   });
 });
 app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
 
 //Test-Route
 // app.get(
