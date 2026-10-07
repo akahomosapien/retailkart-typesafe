@@ -3,6 +3,7 @@ import { Router } from "express";
 import { createProductSchema } from "./product.schema.js";
 import {
   createProductController,
+  getProductByIdController,
   getProductsController,
 } from "./product.controller.js";
 
@@ -15,5 +16,6 @@ productRouter.post(
 );
 
 productRouter.get("/", getProductsController);
+productRouter.get("/:id", getProductByIdController);
 
 export default productRouter;
